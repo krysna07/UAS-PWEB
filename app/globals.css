@@ -1,26 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto+Mono:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+    --font-sans: "Inter", system-ui, sans-serif;
+    --font-mono: "Roboto Mono", "Courier New", monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
+    background-color: #f8fafc;
+}
+
+
+/* Scrollbar styling */
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* Print media optimization - reduce file size dan improve performance */
+
+@media print {
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    body {
+        background-color: white !important;
+        color: #000 !important;
+    }
+    /* Remove animations and transitions */
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+    /* Optimize table for print */
+    table {
+        page-break-inside: avoid;
+        width: 100%;
+    }
+    tr {
+        page-break-inside: avoid;
+    }
+    thead {
+        display: table-header-group;
+        page-break-after: avoid;
+    }
+    tbody {
+        page-break-inside: avoid;
+    }
+    /* Optimize images */
+    img {
+        max-width: 100%;
+        height: auto;
+        page-break-inside: avoid;
+    }
+    /* Remove unnecessary spacing */
+    .print\:hidden {
+        display: none !important;
+    }
+    /* Ensure text is visible */
+    a {
+        text-decoration: underline;
+        color: #000;
+    }
+    /* Page break control */
+    .page-break-before {
+        page-break-before: always;
+    }
+    .page-break-after {
+        page-break-after: always;
+    }
+    .no-break {
+        page-break-inside: avoid;
+    }
 }
