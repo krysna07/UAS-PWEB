@@ -111,6 +111,22 @@ export default function MahasiswaPage() {
   const handleAddStudent = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Check if student with same NIM already exists
+      const { data: existingStudent, error: checkError } = await supabase
+        .from('students')
+        .select('id, nama')
+        .eq('nim', formData.nim)
+        .maybeSingle();
+
+      if (checkError) {
+        console.error("Error checking existing student:", checkError);
+      }
+
+      if (existingStudent) {
+        showNotification(`Mahasiswa dengan NIM ${formData.nim} sudah terdaftar (${existingStudent.nama})!`, "error");
+        return;
+      }
+
       const { error } = await supabase
         .from('students')
         .insert([formData]);

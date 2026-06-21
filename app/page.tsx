@@ -173,6 +173,22 @@ export default function Home() {
         setStudentList(studentList.map(s => (s as any).id === editingStudent.id ? data[0] : s));
         showNotification("Data mahasiswa berhasil diperbarui!");
       } else {
+        // Check if student with same NIM already exists
+        const { data: existingStudent, error: checkError } = await supabase
+          .from('students')
+          .select('id, nama')
+          .eq('nim', formData.nim)
+          .maybeSingle();
+
+        if (checkError) {
+          console.error("Error checking existing student:", checkError);
+        }
+
+        if (existingStudent) {
+          showNotification(`Mahasiswa dengan NIM ${formData.nim} sudah terdaftar (${existingStudent.nama})!`, "error");
+          return;
+        }
+
         // INSERT Logic
         const { data, error } = await supabase
           .from('students')
